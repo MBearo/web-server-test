@@ -1,0 +1,24 @@
+{
+  "name": "web-server-test",
+  "version": "1.0.0",
+  "description": "测试用网站",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MBearo/web-server-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MBearo/web-server-test/issues"
+  },
+  "homepage": "https://github.com/MBearo/web-server-test#readme",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-static": "^5.0.0"
+  }
+}
