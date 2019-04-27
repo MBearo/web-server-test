@@ -5,6 +5,6 @@ const app = new Koa();
 
 app.use(serve(__dirname + '/static'));
 
-app.listen(3000);
+app.listen(80);
 
 console.log('listening on port 80');
