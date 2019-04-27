@@ -34,7 +34,7 @@
 <script>
   console.log(document.documentElement.clientWidth)
   let clientWidth=document.documentElement.clientWidth
-
+  if(clientWidth>500) clientWidth=600
   // 块容器大小
   const RECT_CONTAINER_WIDTH = clientWidth/6
   const RECT_CONTAINER_HEIGHT = clientWidth/6
