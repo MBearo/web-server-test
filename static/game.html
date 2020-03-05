@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>我也想要无限手套</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+    }
+
+    #myCanvas {
+      background-color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="myCanvas" height="600" width="600"></canvas>
+</body>
+<script>
+  console.log(document.documentElement.clientWidth)
+  let clientWidth=document.documentElement.clientWidth
+  if(clientWidth>500) clientWidth=600
+  // 块容器大小
+  const RECT_CONTAINER_WIDTH = clientWidth/6
+  const RECT_CONTAINER_HEIGHT = clientWidth/6
+  // 块大小
+  const RECT_WIDTH = clientWidth/6-10
+  const RECT_HEIGHT = clientWidth/6-10
+  // 放几个块
+  const RECT_NUM_X = 6
+  const RECT_NUM_Y = 6
+  // 游戏区在画布的位置
+  const VIEWPORT_X = 0
+  const VIEWPORT_Y = 50
+  const VIEWPORT_WIDTH = clientWidth
+  const VIEWPORT_HEIGHT = clientWidth
+
+  let activeX = 0
+  let activeY = 0
+
+  let level = 1
+
+  const canvas = document.getElementById("myCanvas");
+  canvas.height=clientWidth+VIEWPORT_Y
+  canvas.width=clientWidth
+  const context = canvas.getContext("2d");
+  
+
+  class Rect {
+    constructor(x, y, width, height, fillStyle) {
+      this.x = x
+      this.y = y
+      this.width = width
+      this.height = height
+      this.fillStyle = fillStyle
+      context.fillStyle = fillStyle
+      context.fillRect(x, y, width, height)
+    }
+    update() {
+      context.fillStyle = fillStyle
+      context.fillRect(x, y, width, height)
+    }
+  }
+
+  //var a1=new Rect(50,50,150,150,'#ffffff')
+  let rectArr = []
+  createRect()
+
+
+  canvas.addEventListener("click", function (event) {
+    let pos = getMousePos(canvas, event);
+    console.log(pos)
+    console.log(rectArr[0][0].x, rectArr[0][0].y)
+    //可以优化
+    for (let m = 0; m < RECT_NUM_X; m++) {
+      for (let n = 0; n < RECT_NUM_Y; n++) {
+        let rectPos = {
+          x: rectArr[m][n].x,
+          y: rectArr[m][n].y
+        }
+        if (pos.x > rectPos.x && pos.x < rectPos.x + RECT_WIDTH && pos.y > rectPos.y && pos.y < rectPos.y + RECT_HEIGHT) {
+          console.log(m, n, 'rect index')
+          if (m === activeX && n === activeY) {
+            console.log('yes')
+            level++
+            rectArr = []
+            createRect()
+          } else {
+            console.log('no')
+          }
+
+        }
+      }
+    }
+  });
+
+  function getMousePos(canvas, event) {
+    //1
+    var rect = canvas.getBoundingClientRect();
+    //2
+    var x = event.clientX - rect.left * (canvas.width / rect.width);
+    var y = event.clientY - rect.top * (canvas.height / rect.height);
+    return { x, y }
+  }
+
+  function createRect() {
+    context.clearRect(0,0,VIEWPORT_WIDTH,VIEWPORT_HEIGHT)
+    showText(level)
+    activeX = Math.floor(Math.random() * RECT_NUM_X)
+    activeY = Math.floor(Math.random() * RECT_NUM_Y)
+
+
+    let colorNumR = createScopeNum(level)
+    let colorNumG = createScopeNum(level)
+    let colorNumB = createScopeNum(level)
+
+    for (let m = 0; m < RECT_NUM_X; m++) {
+      rectArr.push([])
+      for (let n = 0; n < RECT_NUM_Y; n++) {
+        if (activeX === m && activeY === n) {
+          rectArr[m].push(new Rect(
+            VIEWPORT_X + m * RECT_CONTAINER_WIDTH + (RECT_CONTAINER_WIDTH - RECT_WIDTH) / 2,
+            VIEWPORT_Y + n * RECT_CONTAINER_HEIGHT + (RECT_CONTAINER_HEIGHT - RECT_HEIGHT) / 2,
+            RECT_WIDTH,
+            RECT_HEIGHT,
+            `rgb(${colorNumR.standardNum},${colorNumG.standardNum},${colorNumB.standardNum})`
+          ))
+        } else {
+          rectArr[m].push(new Rect(
+            VIEWPORT_X + m * RECT_CONTAINER_WIDTH + (RECT_CONTAINER_WIDTH - RECT_WIDTH) / 2,
+            VIEWPORT_Y + n * RECT_CONTAINER_HEIGHT + (RECT_CONTAINER_HEIGHT - RECT_HEIGHT) / 2,
+            RECT_WIDTH,
+            RECT_HEIGHT,
+            `rgb(${colorNumR.newNum},${colorNumG.newNum},${colorNumB.newNum})`
+          ))
+        }
+      }
+    }
+  }
+  function createScopeNum(level) {
+    let standardNum = Math.floor(Math.random() * 255)
+    let deviationNum = 125 * Math.pow(level, -1)
+    let newNum = 0
+    if (standardNum - deviationNum > 0) {
+      newNum = standardNum - deviationNum
+    } else {
+      newNum = deviationNum + deviationNum
+    }
+    return { standardNum, newNum }
+  }
+  function showText(text) {
+    context.font = "20px serif";
+    context.fillStyle = "#ffffff";
+    context.fillText(text, 20, 20);
+  }
+
+</script>
+
+</html>
