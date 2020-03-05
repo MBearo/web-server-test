@@ -11,6 +11,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
     }
 
     .name {
@@ -18,6 +19,7 @@
       padding: 0;
       margin: 0;
       color: white;
+      font-size: 24px;
     }
 
     html,
@@ -37,15 +39,30 @@
       color: white;
       font-size: 12px;
     }
-    .footer a{
+
+    a {
       color: white;
+    }
+
+    .model {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-around;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <p class="name">I'm MBear</p>
+    <div>
+      <div>
+        <a href="https://github.com/MBearo" class="name">I'm MBear</a>
+      </div>
+      <div class="model">
+        <a href="game.html">Game</a>
+        <a href="qmc.html">Qmc</a>
+      </div>
+    </div>
   </div>
   <footer class="footer">
     <span>&copy; 2020 mbear.top 版权所有ICP证： </span> <a href="http://beian.miit.gov.cn">鲁ICP备17022049号</a>
