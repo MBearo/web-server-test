@@ -136,6 +136,9 @@
     const whoIsThis = who()
     if (whoIsThis !== 'Wechat' && whoIsThis !== 'QQ' && whoIsThis !== 'UC') {
       document.querySelector('#openFile').setAttribute('accept', ".QMCFLAC,.QMC0,.QMC3")
+      const element=document.createElement("a")
+      element.innerText=whoIsThis
+      document.appendChild(element)
     } 
   </script>
   <script>
