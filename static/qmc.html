@@ -90,27 +90,57 @@
   <div class="container">
     <label for="openFile" class="btn">
       <span>选择文件</span>
-      <input type="file" name="" id="openFile" accept="audio/mpeg">
-      <!-- <input type="file" name="" id="openFile" accept=".QMCFLAC,.QMC0,.QMC3"> -->
+      <input type="file" name="" id="openFile" class="noChrome" accept="audio/mpeg">
+      <input type="file" name="" id="openFile" class="chrome" accept=".QMCFLAC,.QMC0,.QMC3">
     </label>
   </div>
   <script>
-    let openFile = document.querySelector('#openFile')
+    function whoIsWhis() {
+      var explorer = window.navigator.userAgent;
+      //判断是否为IE浏览器
+      if (explorer.indexOf("MSIE") >= 0) {
+        return 'ie';
+      }
+      //判断是否为Firefox浏览器
+      else if (explorer.indexOf("Firefox") >= 0) {
+        return 'Firefox';
+      }
+      //判断是否为Chrome浏览器
+      else if (explorer.indexOf("Chrome") >= 0) {
+        return 'Chrome';
+      }
+      //判断是否为Opera浏览器
+      else if (explorer.indexOf("Opera") >= 0) {
+        return 'Opera';
+      }
+      //判断是否为Safari浏览器
+      else if (explorer.indexOf("Safari") >= 0) {
+        return 'Safari';
+      }
+    }
+    if (whoIsWhis() === 'Chrome') {
+      document.querySelector('.noChrome').style.display = 'none'
+    } else {
+      document.querySelector('.chrome').style.display = 'none'
+    }
+  </script>
+  <script>
+    var openFile = document.querySelector('#openFile')
     openFile.addEventListener('change', e => {
-      let QMC = new Blob(openFile.files)
-      let reader = new FileReader()
+      var QMC = new Blob(openFile.files)
+      var reader = new FileReader()
       reader.readAsBinaryString(QMC)
       reader.onload = e => {
-        let result = e.target.result
-        let length = e.target.result.length
-        let bstr = new Uint8Array(length)
-        for (let i = 0; i < length; i++) {
+        var result = e.target.result
+        var length = e.target.result.length
+        var bstr = new Uint8Array(length)
+        for (var i = 0; i < length; i++) {
           bstr[i] = result[i].charCodeAt(0) ^ mapL(i);
         }
-        let file = new Blob([bstr])
-        let element = document.createElement("a")
+        var file = new Blob([bstr])
+        var element = document.createElement("a")
         if (openFile.files.length > 0) {
-          let name = openFile.files[0].name.replace("qmc3", "mp3").replace("qmcflac", "flac").replace("qmcogg", "ogg").replace("qmc0", "mp3")
+          var name = openFile.files[0].name.replace("qmc3", "mp3").replace("qmcflac", "flac").replace("qmcogg", "ogg").replace("qmc0", "mp3")
           element.innerText = '点击下载' + name
           element.download = name
           element.href = window.URL.createObjectURL(file)
