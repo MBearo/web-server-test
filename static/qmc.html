@@ -40,7 +40,7 @@
       color: rgba(0, 0, 0, .65);
       background-color: #fff;
       border-color: #d9d9d9;
-      -webkit-appearance: button;
+      /* -webkit-appearance: button; */
       overflow: visible;
       text-transform: none;
       box-sizing: border-box;
@@ -82,21 +82,30 @@
     .container {
       margin-bottom: 20px;
     }
+
+    .sub {
+      color: #999;
+      font-size: 14px;
+    }
   </style>
 </head>
 
 <body>
   <p>贫穷让我无所不能</p>
+  <p class="sub">建议使用电脑浏览器或者Chrome</p>
   <div class="container">
-    <label for="openFile" class="btn">
+    <label for="openFile" class="btn no-chrome">
       <span>选择文件</span>
-      <input type="file" name="" id="openFile" class="noChrome" accept="audio/mpeg">
-      <input type="file" name="" id="openFile" class="chrome" accept=".QMCFLAC,.QMC0,.QMC3">
+      <input type="file" name="" id="openFile">
     </label>
+    <!-- <label for="openFile" class="btn chrome">
+      <span>选择文件</span>
+      <input type="file" name="" id="openFile" accept=".QMCFLAC,.QMC0,.QMC3">
+    </label> -->
   </div>
   <script>
-    function whoIsWhis() {
-      var explorer = window.navigator.userAgent;
+    function who() {
+      let explorer = window.navigator.userAgent;
       //判断是否为IE浏览器
       if (explorer.indexOf("MSIE") >= 0) {
         return 'ie';
@@ -118,29 +127,28 @@
         return 'Safari';
       }
     }
-    if (whoIsWhis() === 'Chrome') {
-      document.querySelector('.noChrome').style.display = 'none'
-    } else {
-      document.querySelector('.chrome').style.display = 'none'
-    }
+    const whoIsThis = who()
+    if (whoIsThis === 'Chrome' || whoIsThis === 'Firefox' || whoIsThis === 'Safari') {
+      document.querySelector('#openFile').setAttribute('accept', ".QMCFLAC,.QMC0,.QMC3")
+    } 
   </script>
   <script>
-    var openFile = document.querySelector('#openFile')
+    const openFile = document.querySelector('#openFile')
     openFile.addEventListener('change', e => {
-      var QMC = new Blob(openFile.files)
-      var reader = new FileReader()
+      const QMC = new Blob(openFile.files)
+      const reader = new FileReader()
       reader.readAsBinaryString(QMC)
       reader.onload = e => {
-        var result = e.target.result
-        var length = e.target.result.length
-        var bstr = new Uint8Array(length)
-        for (var i = 0; i < length; i++) {
+        const result = e.target.result
+        const length = e.target.result.length
+        let bstr = new Uint8Array(length)
+        for (let i = 0; i < length; i++) {
           bstr[i] = result[i].charCodeAt(0) ^ mapL(i);
         }
-        var file = new Blob([bstr])
-        var element = document.createElement("a")
+        const file = new Blob([bstr], { type: "audio/mpeg" })
+        const element = document.createElement("a")
         if (openFile.files.length > 0) {
-          var name = openFile.files[0].name.replace("qmc3", "mp3").replace("qmcflac", "flac").replace("qmcogg", "ogg").replace("qmc0", "mp3")
+          const name = openFile.files[0].name.replace("qmc3", "mp3").replace("qmcflac", "flac").replace("qmcogg", "ogg").replace("qmc0", "mp3")
           element.innerText = '点击下载' + name
           element.download = name
           element.href = window.URL.createObjectURL(file)
@@ -158,7 +166,7 @@
       }
     }
     function getI(i) {
-      var maps = [0x77, 0x48, 0x32, 0x73, 0xDE, 0xF2, 0xC0, 0xC8, 0x95, 0xEC, 0x30, 0xB2, 0x51, 0xC3, 0xE1, 0xA0,
+      let maps = [0x77, 0x48, 0x32, 0x73, 0xDE, 0xF2, 0xC0, 0xC8, 0x95, 0xEC, 0x30, 0xB2, 0x51, 0xC3, 0xE1, 0xA0,
         0x9E, 0xE6, 0x9D, 0xCF, 0xFA, 0x7F, 0x14, 0xD1, 0xCE, 0xB8, 0xDC, 0xC3, 0x4A, 0x67, 0x93, 0xD6,
         0x28, 0xC2, 0x91, 0x70, 0xCA, 0x8D, 0xA2, 0xA4, 0xF0, 8, 0x61, 0x90, 0x7E, 0x6F, 0xA2, 0xE0, 0xEB,
         0xAE, 0x3E, 0xB6, 0x67, 0xC7, 0x92, 0xF4, 0x91, 0xB5, 0xF6, 0x6C, 0x5E, 0x84, 0x40, 0xF7, 0xF3,
