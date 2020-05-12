@@ -105,7 +105,7 @@
   </div>
   <script>
     function who() {
-      let explorer = window.navigator.userAgent;
+      let explorer = window.navigator.userAgent.toLowerCase();
       if (explorer.indexOf("micromessenger") >= 0) {
         return 'Wechat';
       } else if (explorer.indexOf("qqbrowser") >= 0) {
@@ -125,7 +125,7 @@
       }
     }
     const whoIsThis = who()
-    if (whoIsThis !== 'Wechat' && whoIsThis !== 'QQ' && whoIsThis !== 'UC') {
+    if (whoIsThis === 'Wechat' || whoIsThis === 'QQ' || whoIsThis === 'UC') {
       document.querySelector('#openFile').setAttribute('accept', ".QMCFLAC,.QMC0,.QMC3")
     } 
     const element = document.createElement("a")
