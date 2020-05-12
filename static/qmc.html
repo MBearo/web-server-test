@@ -106,38 +106,29 @@
   <script>
     function who() {
       let explorer = window.navigator.userAgent;
-      //判断是否为IE浏览器
-      if (explorer.indexOf("MSIE") >= 0) {
-        return 'ie';
-      }
-      //判断是否为Firefox浏览器
-      else if (explorer.indexOf("Firefox") >= 0) {
-        return 'Firefox';
-      }
-      //判断是否为Chrome浏览器
-      else if (explorer.indexOf("Chrome") >= 0) {
-        return 'Chrome';
-      }
-      //判断是否为Opera浏览器
-      else if (explorer.indexOf("Opera") >= 0) {
-        return 'Opera';
-      }
-      //判断是否为Safari浏览器
-      else if (explorer.indexOf("Safari") >= 0) {
-        return 'Safari';
-      } else if (explorer.indexOf("micromessenger") >= 0) {
+      if (explorer.indexOf("micromessenger") >= 0) {
         return 'Wechat';
       } else if (explorer.indexOf("qqbrowser") >= 0) {
         return 'QQ';
       } else if (explorer.indexOf("ucbrowser") >= 0) {
         return 'UC';
+      } else if (explorer.indexOf("MSIE") >= 0) {
+        return 'ie';
+      } else if (explorer.indexOf("Firefox") >= 0) {
+        return 'Firefox';
+      } else if (explorer.indexOf("Chrome") >= 0) {
+        return 'Chrome';
+      } else if (explorer.indexOf("Opera") >= 0) {
+        return 'Opera';
+      } else if (explorer.indexOf("Safari") >= 0) {
+        return 'Safari';
       }
     }
     const whoIsThis = who()
     if (whoIsThis !== 'Wechat' && whoIsThis !== 'QQ' && whoIsThis !== 'UC') {
       document.querySelector('#openFile').setAttribute('accept', ".QMCFLAC,.QMC0,.QMC3")
-      const element=document.createElement("a")
-      element.innerText=whoIsThis
+      const element = document.createElement("a")
+      element.innerText = whoIsThis
       document.body.appendChild(element)
     } 
   </script>
