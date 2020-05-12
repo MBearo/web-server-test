@@ -125,10 +125,16 @@
       //判断是否为Safari浏览器
       else if (explorer.indexOf("Safari") >= 0) {
         return 'Safari';
+      } else if (explorer.indexOf("micromessenger") >= 0) {
+        return 'Wechat';
+      } else if (explorer.indexOf("qqbrowser") >= 0) {
+        return 'QQ';
+      } else if (explorer.indexOf("ucbrowser") >= 0) {
+        return 'UC';
       }
     }
     const whoIsThis = who()
-    if (whoIsThis === 'Chrome' || whoIsThis === 'Firefox' || whoIsThis === 'Safari') {
+    if (whoIsThis !== 'Wechat'||whoIsThis !== 'QQ'||whoIsThis !== 'UC') {
       document.querySelector('#openFile').setAttribute('accept', ".QMCFLAC,.QMC0,.QMC3")
     } 
   </script>
